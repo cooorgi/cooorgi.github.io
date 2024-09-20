@@ -3,61 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Hello World</title>
+    <title>Dark Tech Hello World</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            font-family: 'Arial', sans-serif;
+            background: #0f0f0f; /* 深色背景 */
             overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         h1 {
-            font-size: 4rem;
-            color: white;
+            font-size: 5rem;
+            color: #00ffcc; /* 科技感的荧光绿色 */
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            animation: neonGlow 2s ease-in-out infinite alternate;
+            letter-spacing: 0.1em;
+            animation: flicker 3s infinite alternate ease-in-out;
             position: relative;
+            z-index: 2;
         }
 
-        h1::before, h1::after {
-            content: "Hello, World!";
+        /* 文字流光效果 */
+        h1::before {
+            content: 'Hello, World!';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: -1;
-            color: #00c6ff;
-            transform: scale(1.1);
-            filter: blur(10px);
-            opacity: 0;
-            animation: neonGlow 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, rgba(0, 255, 204, 0.1), rgba(0, 255, 204, 0.8), rgba(0, 255, 204, 0.1));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: flow 3s infinite linear;
         }
 
-        h1::after {
-            color: #0072ff;
-            transform: scale(1.2);
-            filter: blur(20px);
-            opacity: 0.5;
-        }
-
-        @keyframes neonGlow {
+        @keyframes flow {
             0% {
-                text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff, 0 0 40px #00c6ff;
+                background-position: -100%;
             }
             100% {
-                text-shadow: 0 0 20px #0072ff, 0 0 30px #0072ff, 0 0 50px #0072ff, 0 0 100px #0072ff;
+                background-position: 100%;
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+            }
+            100% {
+                opacity: 0.8;
+                text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc, 0 0 60px #00ffcc;
+            }
+        }
+
+        /* 粒子背景 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particles div {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffcc;
+            border-radius: 50%;
+            animation: drift 10s infinite linear;
+            opacity: 0.3;
+        }
+
+        /* 粒子随机运动 */
+        @keyframes drift {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(calc(-50vw + 100vw * var(--randomX)));
             }
         }
     </style>
 </head>
 <body>
+
     <h1>Hello, World!</h1>
+    <div class="particles"></div>
+
+    <script>
+        // 动态生成粒子效果
+        const particlesContainer = document.querySelector('.particles');
+        const numParticles = 100;
+
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.style.setProperty('--randomX', Math.random());
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+
 </body>
 </html>
