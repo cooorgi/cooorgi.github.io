@@ -1,7 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Hello World</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            animation: neonGlow 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        h1::before, h1::after {
+            content: "Hello, World!";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            color: #00c6ff;
+            transform: scale(1.1);
+            filter: blur(10px);
+            opacity: 0;
+            animation: neonGlow 2s ease-in-out infinite alternate;
+        }
+
+        h1::after {
+            color: #0072ff;
+            transform: scale(1.2);
+            filter: blur(20px);
+            opacity: 0.5;
+        }
+
+        @keyframes neonGlow {
+            0% {
+                text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff, 0 0 40px #00c6ff;
+            }
+            100% {
+                text-shadow: 0 0 20px #0072ff, 0 0 30px #0072ff, 0 0 50px #0072ff, 0 0 100px #0072ff;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Hello, World!</h1>
