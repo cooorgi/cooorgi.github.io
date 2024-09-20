@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Tech Hello World</title>
+    <title>Hello World</title>
     <style>
         body {
             margin: 0;
@@ -12,14 +12,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #0f0f0f; /* 深色背景 */
+            background: #0f0f0f;
             overflow: hidden;
             font-family: 'Courier New', Courier, monospace;
         }
 
         h1 {
             font-size: 5rem;
-            color: #00ffcc; /* 科技感的荧光绿色 */
+            color: #00bfff;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             animation: flicker 3s infinite alternate ease-in-out;
@@ -29,13 +29,13 @@
 
         /* 文字流光效果 */
         h1::before {
-            content: 'Hello, World!';
+            content: 'Hello  World!';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, rgba(0, 255, 204, 0.1), rgba(0, 255, 204, 0.8), rgba(0, 255, 204, 0.1));
+            background: linear-gradient(90deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.8), rgba(0, 191, 255, 0.1));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -54,11 +54,11 @@
         @keyframes flicker {
             0% {
                 opacity: 1;
-                text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+                text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff;
             }
             100% {
                 opacity: 0.8;
-                text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc, 0 0 60px #00ffcc;
+                text-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff, 0 0 60px #00bfff;
             }
         }
 
@@ -77,7 +77,7 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: #00ffcc;
+            background: #00bfff;
             border-radius: 50%;
             animation: drift 10s infinite linear;
             opacity: 0.3;
