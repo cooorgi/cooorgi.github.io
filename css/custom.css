@@ -1,0 +1,6 @@
+/*代码框 字体设置*/
+#article-container pre {
+	padding: 1px 3px;
+	margin: 0 3px;
+	font-family: 'Fira Code', monospace !important;
+}

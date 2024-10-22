@@ -1,0 +1,468 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ctfshow misc入门 | cooorgi</title><meta name="author" content="cooorgi"><meta name="copyright" content="cooorgi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="ctfshow misc入门刷题记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow misc入门">
+<meta property="og:url" content="https://cooorgi.top/articles/90ee655.html">
+<meta property="og:site_name" content="cooorgi">
+<meta property="og:description" content="ctfshow misc入门刷题记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cooorgi.top/upload/background.jpg">
+<meta property="article:published_time" content="2024-10-21T12:30:02.000Z">
+<meta property="article:modified_time" content="2024-10-22T08:43:15.337Z">
+<meta property="article:author" content="cooorgi">
+<meta property="article:tag" content="MISC">
+<meta property="article:tag" content="ctfshow">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cooorgi.top/upload/background.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://cooorgi.top/articles/90ee655.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":3,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ctfshow misc入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-10-22 16:43:15'
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css"><link rel="stylesheet" href="/css/abb.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/upload/background.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/upload/background.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">cooorgi</span></a><a class="nav-page-title" href="/"><span class="site-name">ctfshow misc入门</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ctfshow misc入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-21T12:30:02.000Z" title="发表于 2024-10-21 20:30:02">2024-10-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-10-22T08:43:15.337Z" title="更新于 2024-10-22 16:43:15">2024-10-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="misc-1"><a href="#misc-1" class="headerlink" title="misc 1"></a>misc 1</h2><p>图片上直接就是flag<br>ctfshow{22f1fb91fc4169f1c9411ce632a0ed8d}</p>
+<h2 id="misc-2"><a href="#misc-2" class="headerlink" title="misc 2"></a>misc 2</h2><p>打开是图片的十六进制，直接转图片，拿到flag<br>ctfshow{6f66202f21ad22a2a19520cdd3f69e7b}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241019224000240.png" alt="image-20241019224000240"></p>
+<h2 id="misc-3"><a href="#misc-3" class="headerlink" title="misc 3"></a>misc 3</h2><p>bpg格式，查看拿到flag<br>ctfshow{aade771916df7cde3009c0e631f9910d}</p>
+<h2 id="misc-4"><a href="#misc-4" class="headerlink" title="misc 4"></a>misc 4</h2><p>被拆分了，改文件后缀就行<br>ctfshow{4314e2b15ad9a960e7d9d8fc2ff902da}</p>
+<h2 id="misc-5"><a href="#misc-5" class="headerlink" title="misc 5"></a>misc 5</h2><p>藏在文件信息头中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241019230410154.png" alt="image-20241019230410154"></p>
+<p>ctfshow{2a476b4011805f1a8e4b906c8f84083e}  </p>
+<h2 id="misc-6"><a href="#misc-6" class="headerlink" title="misc 6"></a>misc 6</h2><p>010直接看，拿到ctfshow{d5e937aefb091d38e70d927b80e1e2ea}</p>
+<h2 id="misc-7"><a href="#misc-7" class="headerlink" title="misc 7"></a>misc 7</h2><p>010直接看，拿到ctfshow{c5e77c9c289275e3f307362e1ed86bb7}</p>
+<h2 id="misc-8"><a href="#misc-8" class="headerlink" title="misc 8"></a>misc 8</h2><blockquote>
+<p>flag在图片文件中图片文件中。</p>
+</blockquote>
+<p>foremost提取出来一张png，拿到ctfshow{1df0a9a3f709a2605803664b55783687}</p>
+<h2 id="misc-9"><a href="#misc-9" class="headerlink" title="misc 9"></a>misc 9</h2><blockquote>
+<p>flag在图片块里。</p>
+</blockquote>
+<p>010直接看，拿到ctfshow{5c5e819508a3ab1fd823f11e83e93c75}</p>
+<h2 id="misc-10"><a href="#misc-10" class="headerlink" title="misc 10"></a>misc 10</h2><blockquote>
+<p>flag在图片数据里。</p>
+</blockquote>
+<p>binwalk提取出来，10E5打开拿到ctfshow{353252424ac69cb64f643768851ac790}</p>
+<h2 id="misc-11"><a href="#misc-11" class="headerlink" title="misc 11"></a>misc 11</h2><blockquote>
+<p>flag在另一张图里。</p>
+</blockquote>
+<p>把第二个 IDAT 数据删除，重新打开图片发现有flag：ctfshow{44620176948fa759d3eeafeac99f1ce9}</p>
+<h2 id="misc-12"><a href="#misc-12" class="headerlink" title="misc 12"></a>misc 12</h2><blockquote>
+<p>flag在另一张图里。</p>
+</blockquote>
+<p>和11解法一样，不过是多删几个<br>ctfshow{10ea26425dd4708f7da7a13c8e256a73}</p>
+<h2 id="misc-13"><a href="#misc-13" class="headerlink" title="misc 13"></a>misc 13</h2><blockquote>
+<p>flag位置在图片末尾。</p>
+</blockquote>
+<p>ct¹f…s†hªoKw°{!aeS6¥eT446xc%4Ý8ïf«73•9b‚7ºeEb|2Td~1:däeñ6úeõ412fT8ñ329éal}<br>隔一个提取，一共有四串，但只有一个为真<br>ctfshow{ae6e46c48f739b7eb2d1de6e412f839a}<br>ctfshow{ae6e3ea48f518b7e42d7de6f412f839a}真<br>ctfshow{1e3e2ed48f518b7e4267de1c412a839a}<br>ctfshow{ae6e3fa48f528b1742d72e6f41298380}</p>
+<h2 id="misc-14"><a href="#misc-14" class="headerlink" title="misc 14"></a>misc 14</h2><blockquote>
+<p>flag在那张图里。</p>
+</blockquote>
+<p>binwalk自动提取失败，使用dd手动提取</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e --run-as=root ./misc14.jpg</span><br><span class="line"></span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">0             0x0             JPEG image data, EXIF standard</span><br><span class="line">12            0xC             TIFF image data, big-endian, offset of first image directory: 8</span><br><span class="line">1681          0x691           TIFF image data, big-endian, offset of first image directory: 8</span><br><span class="line">2103          0x837           JPEG image data, JFIF standard 1.01</span><br><span class="line"></span><br><span class="line"># 提取从 0x0 开始的 JPEG 图像</span><br><span class="line">dd if=misc14.jpg of=image1.jpg bs=1 skip=0 count=2103</span><br><span class="line"></span><br><span class="line"># 提取从 0xC 开始的 TIFF 图像</span><br><span class="line">dd if=misc14.jpg of=image2.tiff bs=1 skip=12 count=1673</span><br><span class="line"></span><br><span class="line"># 提取从 0x691 开始的另一个 TIFF 图像</span><br><span class="line">dd if=misc14.jpg of=image3.tiff bs=1 skip=1681 count=422</span><br><span class="line"></span><br><span class="line"># 提取从 0x837 开始的 JPEG 图像</span><br><span class="line">dd if=misc14.jpg of=image4.jpg bs=1 skip=2103</span><br></pre></td></tr></table></figure>
+
+<p>拿到flag：ctfshow{ce520f767fc465b0787cdb936363e694}<br>也可以复制在010里FFD8FF到FFD9的部分，然后新建一个PNG图片</p>
+<h2 id="misc-15"><a href="#misc-15" class="headerlink" title="misc 15"></a>misc 15</h2><blockquote>
+<p>flag被跳过去了。</p>
+</blockquote>
+<p>010直接拿到flag：ctfshow{fbe7bb657397e6e0a6adea3e40265425}</p>
+<h2 id="misc-16"><a href="#misc-16" class="headerlink" title="misc 16"></a>misc 16</h2><blockquote>
+<p>flag在图片数据里。</p>
+</blockquote>
+<p>binwalk提取ctfshow{a7e32f131c011290a62476ae77190b52}</p>
+<h2 id="misc-17"><a href="#misc-17" class="headerlink" title="misc 17"></a>misc 17</h2><blockquote>
+<p>flag在图片数据里。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021084923.png" alt="Pasted image 20241021084923"></p>
+<p>使用zsteg发现隐写数据，然后分离，再使用binwalk分离，拿到一张png图片，图片上就是flag<br>ctfshow{0fe61fc42e8bbe55b9257d251749ae45}</p>
+<h2 id="misc-18"><a href="#misc-18" class="headerlink" title="misc 18"></a>misc 18</h2><blockquote>
+<p>flag在标题、作者、照相机和镜头型号里。</p>
+</blockquote>
+<p>按照题目，查看属性拿到flag。ctfshow{325d60c208f728ac17e5f02d4cf5a839}</p>
+<h2 id="misc-19"><a href="#misc-19" class="headerlink" title="misc 19"></a>misc 19</h2><blockquote>
+<p>flag在主机上的文档名里。</p>
+</blockquote>
+<p>010打开，拿到flag</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021085250.png" alt="Pasted image 20241021085250"></p>
+<p>ctfshow{dfdcf08038cd446a5eb50782f8d3605d}</p>
+<p>或者是使用exiftool或<a target="_blank" rel="noopener" href="https://exif.tuchong.com/">在线exif查看器</a><br>用strings也可以，flag就在最上边</p>
+<h2 id="misc-20"><a href="#misc-20" class="headerlink" title="misc 20"></a>misc 20</h2><blockquote>
+<p>flag在评论里。</p>
+</blockquote>
+<p>exiftools查看，发现<code>西替爱抚秀大括号西九七九六四必一诶易西爱抚零六易一弟七九西二一弟弟诶弟五九三易四二大括号</code><br>ctfshow{c97964b1aecf06e1d79c21ddad593e42}</p>
+<h2 id="misc-20-1"><a href="#misc-20-1" class="headerlink" title="misc 20"></a>misc 20</h2><blockquote>
+<p>flag在序号里。</p>
+</blockquote>
+<p>exiftool发现ctfshow{}和686578285826597329，686578285826597329&#x3D;&gt;hex(X&amp;Ys)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021093309.png" alt="Pasted image 20241021093309"></p>
+<p>最终发现是分段十进制数转十六进制数，3902939465&#x3D;&gt;e8a22149<br>ctfshow{e8a221498d5c073b4084eb51b1a1686d}</p>
+<h2 id="misc-22"><a href="#misc-22" class="headerlink" title="misc 22"></a>misc 22</h2><blockquote>
+<p>flag在图片里。</p>
+</blockquote>
+<p>缩略图隐写（thumbnail隐写），可以用magicexif，或者随波逐流，也可以用exiftool</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exiftool -ThumbnailImage -b misc22.jpg &gt; 1.jpg</span><br></pre></td></tr></table></figure>
+
+<p>ctfshow{dbf7d3f84b0125e833dfd3c80820a129}</p>
+<h2 id="misc-23"><a href="#misc-23" class="headerlink" title="misc 23"></a>misc 23</h2><blockquote>
+<p>flag在时间里。</p>
+</blockquote>
+<p>exiftool查看发现</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021095447.png" alt="Pasted image 20241021095447"></p>
+<p>ctfshow{}, UnixTimestamp&#x3D;&gt;时间戳， DECtoHEX&#x3D;&gt;十进制数转十六进制数，getflag<br>1997-09-22 02:17:02+08:00, 2055-07-15 12:14:48+08:00, 2038-05-05 16:50:45+08:00, 1984-08-03 18:41:46+08:00<br>874865822</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1997-09-22 02:17:02+08:00 =&gt; 874865822  =&gt; 3425649e</span><br><span class="line">2055-07-15 12:14:48+08:00 =&gt; 2699237688 =&gt; a0e31938</span><br><span class="line">2038-05-05 16:50:45+08:00 =&gt; 2156662245 =&gt; 808c0de5</span><br><span class="line">1984-08-03 18:41:46+08:00 =&gt; 460377706  =&gt; 1b70ce6a</span><br></pre></td></tr></table></figure>
+<p>ctfshow{3425649ea0e31938808c0de51b70ce6a}</p>
+<h2 id="misc-24"><a href="#misc-24" class="headerlink" title="misc 24"></a>misc 24</h2><blockquote>
+<p>flag在图片上面。</p>
+</blockquote>
+<p>BMP宽高修复，直接用PuzzleSolve一把梭就行，也可手动改高度为FA，flag：<br>ctfshow{dd7d8bc9e5e873eb7da3fa51d92ca4b7}</p>
+<h2 id="misc-25"><a href="#misc-25" class="headerlink" title="misc 25"></a>misc 25</h2><blockquote>
+<p>flag在图片下面。</p>
+</blockquote>
+<p>PNG图片宽高修复，属于CRC校验那种，一把梭or手动改，仍是FA，flag：<br>ctfshow{494f611cc5842dd597f460874ce38f57}</p>
+<h2 id="misc-26"><a href="#misc-26" class="headerlink" title="misc 26"></a>misc 26</h2><blockquote>
+<p>flag还是在图片下面，但到底有多下面？。</p>
+</blockquote>
+<p>同25，flag：ctfshow{94aef125e087a7ccf2e28e742efd704c}</p>
+<h2 id="misc-27"><a href="#misc-27" class="headerlink" title="misc 27"></a>misc 27</h2><blockquote>
+<p>flag在图片下面</p>
+</blockquote>
+<p>JPG宽高修复，flag：ctfshow{5cc4f19eb01705b99bf41492430a1a14}</p>
+<h2 id="misc-28"><a href="#misc-28" class="headerlink" title="misc 28"></a>misc 28</h2><blockquote>
+<p>flag在图片下面。</p>
+</blockquote>
+<p>GIF宽高修复，flag：ctfshow{59c8bc525426166b1c893fe12a387fd7}</p>
+<h2 id="misc-29"><a href="#misc-29" class="headerlink" title="misc 29"></a>misc 29</h2><blockquote>
+<p>flag在图片下面。</p>
+</blockquote>
+<p>同28，010查找每一帧的高度9600替换为FF00，然后拆帧，拿到flag<br>ctfshow{03ce5be6d60a4b3c7465ab9410801440}</p>
+<h2 id="misc-30"><a href="#misc-30" class="headerlink" title="misc 30"></a>misc 30</h2><blockquote>
+<p>正确的宽度是950。</p>
+</blockquote>
+<p>照着题目做就行，拿到flag：ctfshow{6db8536da312f6aeb42da2f45b5f213c}</p>
+<h2 id="misc-31"><a href="#misc-31" class="headerlink" title="misc 31"></a>misc 31</h2><blockquote>
+<p>高度是正确的，但正确的宽度是多少呢。</p>
+</blockquote>
+<p>PuzzleSolve一把梭，flag：ctfshow{fb09dcc9005fe3feeefb73646b55efd5}</p>
+<h2 id="misc-32"><a href="#misc-32" class="headerlink" title="misc 32"></a>misc 32</h2><blockquote>
+<p>高度是正确的，但正确的宽度是多少呢</p>
+</blockquote>
+<p>宽高修复一把梭，flag：ctfshow{685082227bcf70d17d1b39a5c1195aa9}</p>
+<h2 id="misc-33"><a href="#misc-33" class="headerlink" title="misc 33"></a>misc 33</h2><blockquote>
+<p>出题人丧心病狂，把高度也改了</p>
+</blockquote>
+<p>宽高修复一把梭，flag为：ctfshow{03070a10ec3a3282ba1e352f4e07b0a9}</p>
+<h2 id="misc-34"><a href="#misc-34" class="headerlink" title="misc 34"></a>misc 34</h2><blockquote>
+<p>出题人狗急跳墙，把IHDR块的CRC也改了，但我们知道正确宽度肯定大于900</p>
+</blockquote>
+<p>宽高修复一把梭，flag为：ctfshow{03e102077e3e5de9dd9c04aba16ef014}</p>
+<h2 id="misc-35"><a href="#misc-35" class="headerlink" title="misc 35"></a>misc 35</h2><blockquote>
+<p>出题人负隅顽抗，但我们知道正确宽度肯定大于900</p>
+</blockquote>
+<p>先改高度，改到600，看到下边有一坨乱码，证明高度差不多了。然后开始遍历宽度，在990到1000左右都能正常显示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">filename = <span class="string">&quot;misc35.jpg&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = f.read()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">901</span>,<span class="number">1200</span>):</span><br><span class="line">        name = <span class="built_in">str</span>(i) + <span class="string">&quot;.jpg&quot;</span></span><br><span class="line">        f1 = <span class="built_in">open</span>(name,<span class="string">&quot;wb&quot;</span>)</span><br><span class="line">        new = data[:<span class="number">159</span>]+struct.pack(<span class="string">&#x27;&gt;h&#x27;</span>,i)+data[<span class="number">161</span>:]</span><br><span class="line">        f1.write(new)</span><br><span class="line">        f1.close()</span><br></pre></td></tr></table></figure>
+<p>ctfshow{ca35201ca9ed607e5a68f44ef573fbc3}</p>
+<h2 id="misc-36"><a href="#misc-36" class="headerlink" title="misc 36"></a>misc 36</h2><blockquote>
+<p>出题人坦白从宽，正确的宽度在920-950之间</p>
+</blockquote>
+<p>先改高度为FF00，然后进行遍历，最后发现941应该是原来的宽度，flag：ctfshow{1ebf739f832906d60f57436b8179166f}<br>遍历脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line">filename = <span class="string">&quot;misc36.gif&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = f.read()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">920</span>,<span class="number">951</span>):</span><br><span class="line">        name = <span class="built_in">str</span>(i) + <span class="string">&quot;.gif&quot;</span></span><br><span class="line">        f1 = <span class="built_in">open</span>(name,<span class="string">&quot;wb&quot;</span>)</span><br><span class="line">        new = data[:<span class="number">38</span>]+struct.pack(<span class="string">&#x27;&gt;h&#x27;</span>,i)[::-<span class="number">1</span>]+data[<span class="number">40</span>:]</span><br><span class="line">        f1.write(new)</span><br><span class="line">        f1.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="misc-37"><a href="#misc-37" class="headerlink" title="misc 37"></a>misc 37</h2><blockquote>
+<p>flag在图片里</p>
+</blockquote>
+<p>是GIF动图，直接拆，flag在第8、13、20、30、33帧<br>ctfshow{2056782cd57b13261dcbbe3d6eecda17}</p>
+<h2 id="misc-38"><a href="#misc-38" class="headerlink" title="misc 38"></a>misc 38</h2><blockquote>
+<p>flag在图片里</p>
+</blockquote>
+<p>用010打开，发现有8个FFD9，十分有九分的不对劲，看了其他大佬的wp发现是APNG格式<br>可以用honeyview&#x2F;bandview逐帧查看，也可以用apng直接拆&#x2F;转gif后拆。<br>flag为：ctfshow{48b722b570c603ef58cc0b83bbf7680d}</p>
+<h2 id="misc-39"><a href="#misc-39" class="headerlink" title="misc 39"></a>misc 39</h2><blockquote>
+<p>flag就像水，忽快忽慢地流</p>
+</blockquote>
+<p>是GIF时间间隔隐写，用PuzzleSolve一把梭，提取出时间间隔，然后360&#x3D;&gt;0，370&#x3D;&gt;1，最后再按照七位二进制数转ASCII字符串。也可用 imagemagick工具：identify -format “%T “ misc39.gif提取出，不过是36&#x3D;&gt;0，37&#x3D;&gt;1。下边为Python脚本实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;./1.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    data = <span class="built_in">eval</span>(file.read())</span><br><span class="line">    <span class="comment"># data = file.read().split()</span></span><br><span class="line"><span class="comment"># 替换规则：360 -&gt; 0, 370 -&gt; 1</span></span><br><span class="line">binary_string = <span class="string">&#x27;&#x27;</span>.join([<span class="string">&#x27;0&#x27;</span> <span class="keyword">if</span> num == <span class="string">&#x27;360&#x27;</span> <span class="keyword">else</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">for</span> num <span class="keyword">in</span> data])</span><br><span class="line"><span class="comment"># binary_string = &#x27;&#x27;.join([&#x27;0&#x27; if num == &#x27;36&#x27; else &#x27;1&#x27; for num in data])</span></span><br><span class="line">ascii_string = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">chr</span>(<span class="built_in">int</span>(binary_string[i:i+<span class="number">7</span>], <span class="number">2</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(binary_string), <span class="number">7</span>)])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ascii_string)</span><br></pre></td></tr></table></figure>
+
+<p>flag为ctfshow{52812ff995fb7be268d963a9ebca0459}</p>
+<h2 id="misc-40"><a href="#misc-40" class="headerlink" title="misc 40"></a>misc 40</h2><blockquote>
+<p>flag就像歌，有长有短仿佛岁月悠悠</p>
+</blockquote>
+<p>又是一个apng，拆了，应该是在apngframe01.txt这种记录详细信息文件中的隐写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">69</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./misc40/apngframe%02d.txt&#x27;</span> % i) <span class="keyword">as</span> f:</span><br><span class="line">        s = f.read()</span><br><span class="line">        c = <span class="built_in">int</span>(s.split(<span class="string">&quot;/&quot;</span>)[<span class="number">0</span>][<span class="number">6</span>:])</span><br><span class="line">        <span class="built_in">print</span>(c,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        flag += <span class="built_in">chr</span>(c)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+
+<p>![Pasted image 20241021224514](..&#x2F;..&#x2F;..&#x2F;program&#x2F;aaaaaaaaaaa&#x2F;notes&#x2F;ctfshow&#x2F;misc入门&#x2F;image&#x2F;Pasted image 20241021224514.png)</p>
+<p>flag：ctfshow{95ca0297dff0f6b1bdaca394a6fcb95b}</p>
+<h2 id="misc-41"><a href="#misc-41" class="headerlink" title="misc 41"></a>misc 41</h2><blockquote>
+<p>（本题为Misc入门图片篇和愚人节比赛特别联动题）<br>H4ppy Apr1l F001’s D4y！<br>愚人节到了，一群笨蛋往南飞，一会儿排成S字，一会儿排成B字。</p>
+</blockquote>
+<p>发现少了文件头，补上，做不出来，还原。再看看题目，F001不是leet，是十六进制字节，搜索F001</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021114909.png" alt="Pasted image 20241021114909"></p>
+<p>拿到flag，ctfshow{fcbd427caf4a52f1147ab44346cd1cdd}</p>
+<h2 id="misc-42"><a href="#misc-42" class="headerlink" title="misc 42"></a>misc 42</h2><blockquote>
+<p>flag有多长？2cm……不好意思打错了，41位</p>
+</blockquote>
+<p>41位flag，扔随波逐流里发现不止一个IDAT块，也不是覆盖，看看长度，大多都在40多到126之间，那很有可能是ASCII码转字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./misc42/1.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    data = file.readlines()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化flag字符串</span></span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历文件内容逐行提取长度并转换为ASCII字符</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> data:</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;长度&quot;</span> <span class="keyword">in</span> line:</span><br><span class="line">        <span class="comment"># 提取长度值并转为整数，再转为对应的ASCII字符</span></span><br><span class="line">        length = <span class="built_in">int</span>(line.split(<span class="string">&quot;长度: &quot;</span>)[<span class="number">1</span>].split(<span class="string">&quot;,&quot;</span>)[<span class="number">0</span>])</span><br><span class="line">        <span class="built_in">print</span>(length,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        flag += <span class="built_in">chr</span>(length)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241021231216.png" alt="Pasted image 20241021231216"></p>
+<p>拿到flag，ctfshow{078cbd0f9c8d3f2158e70529f8913c65}</p>
+<h2 id="misc-43"><a href="#misc-43" class="headerlink" title="misc 43"></a>misc 43</h2><blockquote>
+<p>错误中隐藏着通往正确答案的道路</p>
+</blockquote>
+<p>扔随波逐流里，发现有12个IDAT块，11个长度大部分为384，且crc校验均是错误的。根据题面，将错误的crc校验码扔赛博厨子，拿到flag</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020241022095645.png" alt="Pasted image 20241022095645"></p>
+<p>flag：ctfshow{6eb2589ffff5e390fe6b87504dbc0892}</p>
+<h2 id="misc-44"><a href="#misc-44" class="headerlink" title="misc 44"></a>misc 44</h2><blockquote>
+<p>错误中还隐藏着坑</p>
+</blockquote>
+<p>扔随波逐流，发现有N多个IDAT块，crc校验True和False交替，应该是01替换，上脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process_crc_file</span>(<span class="params">file_path</span>):</span><br><span class="line">    <span class="comment"># 打开文件并读取所有行</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        lines = file.readlines()</span><br><span class="line">    binary_str = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 按行提取 CRC 校验结果（True 或 False）</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;CRC校验结果: &quot;</span> <span class="keyword">in</span> line:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&quot;True&quot;</span> <span class="keyword">in</span> line:</span><br><span class="line">                binary_str += <span class="string">&#x27;1&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                binary_str += <span class="string">&#x27;0&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将二进制串转换为十六进制串</span></span><br><span class="line">    hex_str = <span class="built_in">hex</span>(<span class="built_in">int</span>(binary_str, <span class="number">2</span>))[<span class="number">2</span>:]  <span class="comment"># 去掉 &#x27;0x&#x27; 前缀</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 输出结果</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Binary string: <span class="subst">&#123;binary_str&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hexadecimal string: <span class="subst">&#123;hex_str&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">process_crc_file(<span class="string">&#x27;./1.txt&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后把十六进制扔赛博厨子，拿到flag：ctfshow{cc1af32bf96308fc1263231be783f69e}</p>
+<h2 id="misc-45"><a href="#misc-45" class="headerlink" title="misc 45"></a>misc 45</h2><blockquote>
+<p>有时候也需要换一换思维格式</p>
+</blockquote>
+<p>换成bmp格式，然后binwalk提取出来一个压缩包，里边就是flag</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&#x27;misc45.png&#x27;</span>)</span><br><span class="line">img.save(<span class="string">&#x27;misc45.bmp&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>ctfshow{057a722a5587979c34966c2436283e70}</p>
+<h2 id="misc-46"><a href="#misc-46" class="headerlink" title="misc 46"></a>misc 46</h2><blockquote>
+<p>你见过扶乩吗</p>
+</blockquote>
+<p>打开图片发现这玩意儿到处晃，用identity查看发现，174+49这些偏移量</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164110167.png" alt="image-20241022164110167"></p>
+<p>根据GIF偏移量来绘图，绘制完，打开png图片就是flag</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 GIF 文件并提取偏移量</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">extract_offsets</span>(<span class="params">gif_file</span>):</span><br><span class="line">    point_list = []</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(gif_file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        bin_data = f.read()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(bin_data)):</span><br><span class="line">            <span class="keyword">if</span> i + <span class="number">1</span> &lt; <span class="built_in">len</span>(bin_data) <span class="keyword">and</span> bin_data[i] == <span class="number">0x21</span> <span class="keyword">and</span> bin_data[i + <span class="number">1</span>] == <span class="number">0xF9</span>:</span><br><span class="line">                l = struct.unpack(<span class="string">&#x27;&lt;H&#x27;</span>, bin_data[i + <span class="number">9</span>:i + <span class="number">11</span>])[<span class="number">0</span>]</span><br><span class="line">                r = struct.unpack(<span class="string">&#x27;&lt;H&#x27;</span>, bin_data[i + <span class="number">11</span>:i + <span class="number">13</span>])[<span class="number">0</span>]</span><br><span class="line">                point_list.append((l, r))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> point_list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据偏移量绘制黑色像素点</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">draw_image_from_offsets</span>(<span class="params">offsets, image_size=(<span class="params"><span class="number">400</span>, <span class="number">70</span></span>)</span>):</span><br><span class="line">    img = Image.new(<span class="string">&#x27;RGB&#x27;</span>, image_size, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> offsets:</span><br><span class="line">        img.putpixel(i, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">    img.save(<span class="string">&#x27;flag46.png&#x27;</span>)</span><br><span class="line"></span><br><span class="line">gif_file = <span class="string">&#x27;misc46.gif&#x27;</span></span><br><span class="line">offsets = extract_offsets(gif_file)</span><br><span class="line">draw_image_from_offsets(offsets)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164103111.png" alt="image-20241022164103111"></p>
+<p>flag为ctfshow{05906b3be8742a13a93898186bc5802f}</p>
+<h2 id="misc-47"><a href="#misc-47" class="headerlink" title="misc 47"></a>misc 47</h2><blockquote>
+<p>没见过扶乩，那你知道笔仙吗</p>
+</blockquote>
+<p>又是apng，在每一个IDAT块前面都会有一个fcTL块，从中可以获取水平垂直偏移量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;misc47.png&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    c = f.read()</span><br><span class="line"></span><br><span class="line">c = c[c.index(<span class="built_in">bytes</span>.fromhex(<span class="string">&#x27;6663544C00000001&#x27;</span>)):]</span><br><span class="line">pp = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">1124</span>, <span class="number">2</span>):</span><br><span class="line">    start = c.index(<span class="built_in">bytes</span>.fromhex(<span class="string">&#x27;6663544C0000&#x27;</span>) + struct.pack(<span class="string">&#x27;&gt;h&#x27;</span>, i))</span><br><span class="line">    fc = c[start:start + <span class="number">30</span>]</span><br><span class="line">    </span><br><span class="line">    x_offset = struct.unpack(<span class="string">&#x27;&gt;h&#x27;</span>, fc[<span class="number">18</span>:<span class="number">20</span>])[<span class="number">0</span>]</span><br><span class="line">    y_offset = struct.unpack(<span class="string">&#x27;&gt;h&#x27;</span>, fc[<span class="number">22</span>:<span class="number">24</span>])[<span class="number">0</span>]</span><br><span class="line">    pp.append((x_offset, y_offset))</span><br><span class="line"></span><br><span class="line">img = Image.new(<span class="string">&#x27;RGB&#x27;</span>, (<span class="number">400</span>, <span class="number">70</span>), (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> pp:</span><br><span class="line">    <span class="keyword">if</span> <span class="number">0</span> &lt;= i[<span class="number">0</span>] &lt; img.width <span class="keyword">and</span> <span class="number">0</span> &lt;= i[<span class="number">1</span>] &lt; img.height:</span><br><span class="line">        img.putpixel(i, (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">img.save(<span class="string">&#x27;flag.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>flag：ctfshow{6d51f85b45a0061754a2776a32cf26c4}</p>
+<h2 id="misc-48"><a href="#misc-48" class="headerlink" title="misc 48"></a>misc 48</h2><blockquote>
+<p>附件的第（Di）七（Qi）题（Ti）中有提示。本题略脑洞，可跳过</p>
+</blockquote>
+<p>用010打开看到提示，count FF &amp; minus 1 ctfshow{32}，翻译一下，应该是统计FF的数量，然后减一，flag ctfshow{中间有32个字符}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164052068.png" alt="image-20241022164052068"></p>
+<p>上脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;misc48.jpg&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = f.read()</span><br><span class="line"></span><br><span class="line">ff_count_list = []</span><br><span class="line">count = <span class="number">0</span></span><br><span class="line">str_num = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> byte <span class="keyword">in</span> data:</span><br><span class="line">    <span class="keyword">if</span> byte == <span class="number">0xFF</span>:</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> count &gt; <span class="number">0</span>:</span><br><span class="line">            str_num += <span class="number">1</span></span><br><span class="line">            ff_count_list.append(count-<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> str_num &gt;= <span class="number">32</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">hex_string = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">hex</span>(num)[<span class="number">2</span>:] <span class="keyword">for</span> num <span class="keyword">in</span> ff_count_list])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ff_count_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;ctfshow&#123;&#123;<span class="subst">&#123;hex_string&#125;</span>&#125;&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>flag：ctfshow{0cb07add909d0d60a92101a8b5c7223a}</p>
+<h2 id="misc-49"><a href="#misc-49" class="headerlink" title="misc 49"></a>misc 49</h2><blockquote>
+<p>它们一来就是十六种。本题略脑洞，可跳过</p>
+</blockquote>
+<p>010打开看到有N多字符串，不正常，但对不上脑电波，查看其他大佬的wp发现是，提取出FFE？中的？位置的字符，拼接起来就是flag</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./misc49/misc49.jpg&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    bin_data = f.read()</span><br><span class="line">    </span><br><span class="line">hex_data = bin_data.<span class="built_in">hex</span>().upper()</span><br><span class="line">l = hex_data.split(<span class="string">&quot;FFE&quot;</span>)</span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(l)):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(l[i]) &gt; <span class="number">0</span>:</span><br><span class="line">        flag += l[i][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;ctfshow&#123;&#123;<span class="subst">&#123;flag.lower()[:<span class="number">32</span>]&#125;</span>&#125;&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>flag：ctfshow{0c618671a153f5da3948fdb2a2238e44}</p>
+<h2 id="misc-50"><a href="#misc-50" class="headerlink" title="misc 50"></a>misc 50</h2><blockquote>
+<p>有时候视线也要放低一点<br><del>出题人说出完这题他就要跑路去玩MHR了，51题明年见</del></p>
+</blockquote>
+<p>直接上stegsolve</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164039158.png" alt="image-20241022164039158"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164034839.png" alt="image-20241022164034839"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164030313.png" alt="image-20241022164030313"></p>
+<p>flag：ctfshow{84470883ee1eec2e886436461bf79111}</p>
+<h2 id="misc-53"><a href="#misc-53" class="headerlink" title="misc 53"></a>misc 53</h2><blockquote>
+<p>开始愉快的LSB部分。</p>
+</blockquote>
+<p>stegsolve直接出</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164024321.png" alt="image-20241022164024321"></p>
+<p>flag：ctfshow{69830d5a3a3b5006f7b11193e9bc22a2}</p>
+<h2 id="misc-54"><a href="#misc-54" class="headerlink" title="misc 54"></a>misc 54</h2><blockquote>
+<p>还是愉快的LSB部分。</p>
+</blockquote>
+<p>stegsolve直接出</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022164017151.png" alt="image-20241022164017151"></p>
+<p>flag：ctfshow{b1f8ab24b8ca223d0affbf372ba0e4fa}</p>
+<h2 id="misc-55"><a href="#misc-55" class="headerlink" title="misc 55"></a>misc 55</h2><blockquote>
+<p>怎么又是愉快的LSB部分。</p>
+</blockquote>
+<p>发现图片是倒着的，逆转一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&#x27;input.png&#x27;</span>)</span><br><span class="line"></span><br><span class="line">flipped_img_vertical = img.transpose(Image.FLIP_TOP_BOTTOM)</span><br><span class="line">flipped_img_vertical.save(<span class="string">&#x27;flipped_vertical.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后用stegsolve打开，发现zip文件头，保存，解压，拿到flag</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022163959846.png" alt="image-20241022163959846"></p>
+<p>flag：ctfshow{daf256838e19a19d9e7b0a69642ad5ee}</p>
+<h2 id="misc-56"><a href="#misc-56" class="headerlink" title="misc 56"></a>misc 56</h2><blockquote>
+<p>怎么老是愉快的LSB部分。</p>
+</blockquote>
+<p>直接上stegsolve</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20241022163935941.png" alt="image-20241022163935941"></p>
+<p>flag：ctfshow{1b30c28a5fca6cec5886b1d2cc8b1263}</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://cooorgi.top">cooorgi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://cooorgi.top/articles/90ee655.html">https://cooorgi.top/articles/90ee655.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://cooorgi.top" target="_blank">cooorgi</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MISC/">MISC</a><a class="post-meta__tags" href="/tags/ctfshow/">ctfshow</a></div><div class="post-share"><div class="social-share" data-image="/upload/background.jpg" data-sites="wechat,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/upload/background.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cooorgi</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cooorgi"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cooorgi" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:cooorgi@126.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-1"><span class="toc-number">1.</span> <span class="toc-text">misc 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-2"><span class="toc-number">2.</span> <span class="toc-text">misc 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-3"><span class="toc-number">3.</span> <span class="toc-text">misc 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-4"><span class="toc-number">4.</span> <span class="toc-text">misc 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-5"><span class="toc-number">5.</span> <span class="toc-text">misc 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-6"><span class="toc-number">6.</span> <span class="toc-text">misc 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-7"><span class="toc-number">7.</span> <span class="toc-text">misc 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-8"><span class="toc-number">8.</span> <span class="toc-text">misc 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-9"><span class="toc-number">9.</span> <span class="toc-text">misc 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-10"><span class="toc-number">10.</span> <span class="toc-text">misc 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-11"><span class="toc-number">11.</span> <span class="toc-text">misc 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-12"><span class="toc-number">12.</span> <span class="toc-text">misc 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-13"><span class="toc-number">13.</span> <span class="toc-text">misc 13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-14"><span class="toc-number">14.</span> <span class="toc-text">misc 14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-15"><span class="toc-number">15.</span> <span class="toc-text">misc 15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-16"><span class="toc-number">16.</span> <span class="toc-text">misc 16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-17"><span class="toc-number">17.</span> <span class="toc-text">misc 17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-18"><span class="toc-number">18.</span> <span class="toc-text">misc 18</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-19"><span class="toc-number">19.</span> <span class="toc-text">misc 19</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-20"><span class="toc-number">20.</span> <span class="toc-text">misc 20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-20-1"><span class="toc-number">21.</span> <span class="toc-text">misc 20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-22"><span class="toc-number">22.</span> <span class="toc-text">misc 22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-23"><span class="toc-number">23.</span> <span class="toc-text">misc 23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-24"><span class="toc-number">24.</span> <span class="toc-text">misc 24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-25"><span class="toc-number">25.</span> <span class="toc-text">misc 25</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-26"><span class="toc-number">26.</span> <span class="toc-text">misc 26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-27"><span class="toc-number">27.</span> <span class="toc-text">misc 27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-28"><span class="toc-number">28.</span> <span class="toc-text">misc 28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-29"><span class="toc-number">29.</span> <span class="toc-text">misc 29</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-30"><span class="toc-number">30.</span> <span class="toc-text">misc 30</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-31"><span class="toc-number">31.</span> <span class="toc-text">misc 31</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-32"><span class="toc-number">32.</span> <span class="toc-text">misc 32</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-33"><span class="toc-number">33.</span> <span class="toc-text">misc 33</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-34"><span class="toc-number">34.</span> <span class="toc-text">misc 34</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-35"><span class="toc-number">35.</span> <span class="toc-text">misc 35</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-36"><span class="toc-number">36.</span> <span class="toc-text">misc 36</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-37"><span class="toc-number">37.</span> <span class="toc-text">misc 37</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-38"><span class="toc-number">38.</span> <span class="toc-text">misc 38</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-39"><span class="toc-number">39.</span> <span class="toc-text">misc 39</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-40"><span class="toc-number">40.</span> <span class="toc-text">misc 40</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-41"><span class="toc-number">41.</span> <span class="toc-text">misc 41</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-42"><span class="toc-number">42.</span> <span class="toc-text">misc 42</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-43"><span class="toc-number">43.</span> <span class="toc-text">misc 43</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-44"><span class="toc-number">44.</span> <span class="toc-text">misc 44</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-45"><span class="toc-number">45.</span> <span class="toc-text">misc 45</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-46"><span class="toc-number">46.</span> <span class="toc-text">misc 46</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-47"><span class="toc-number">47.</span> <span class="toc-text">misc 47</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-48"><span class="toc-number">48.</span> <span class="toc-text">misc 48</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-49"><span class="toc-number">49.</span> <span class="toc-text">misc 49</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-50"><span class="toc-number">50.</span> <span class="toc-text">misc 50</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-53"><span class="toc-number">51.</span> <span class="toc-text">misc 53</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-54"><span class="toc-number">52.</span> <span class="toc-text">misc 54</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-55"><span class="toc-number">53.</span> <span class="toc-text">misc 55</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc-56"><span class="toc-number">54.</span> <span class="toc-text">misc 56</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/90ee655.html" title="ctfshow misc入门">ctfshow misc入门</a><time datetime="2024-10-21T12:30:02.000Z" title="发表于 2024-10-21 20:30:02">2024-10-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/upload/background.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024  By cooorgi</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a target="_blank" rel="noopener" href="https://cooorgi.github.io/">  blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'ND6GDDXWX0J3CotuYRmkJKgw-MdYXbMMI',
+      appKey: 'W4JzBOuNhQ7LHtcuOErw5QPQ',
+      avatar: 'monsterid',
+      serverURLs: 'https://nd6gddxw.api.lncldglobal.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
