@@ -4,7 +4,16 @@
   <url>
     <loc>https://www.cooorgi.top/articles/37df81e9.html</loc>
     
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.cooorgi.top/articles/5b85ed80.html</loc>
+    
+    <lastmod>2025-05-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -67,7 +76,7 @@
 
   <url>
     <loc>https://www.cooorgi.top/</loc>
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,28 +84,28 @@
   
   <url>
     <loc>https://www.cooorgi.top/tags/Vulnhub/</loc>
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.cooorgi.top/tags/ctfshow/</loc>
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.cooorgi.top/tags/MISC/</loc>
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://www.cooorgi.top/tags/%E6%9D%82%E9%A1%B9/</loc>
-    <lastmod>2025-05-01</lastmod>
+    <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

