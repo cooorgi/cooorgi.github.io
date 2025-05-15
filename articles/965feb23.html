@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>DC: 2 | cooorgi</title><meta name="author" content="cooorgi"><meta name="copyright" content="cooorgi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="DC: 2 靶机地址  Nmap 扫描结果如下，不过 80 端口应该是需要根据主机名解析，所以编辑 &#x2F;etc&#x2F;hosts （Windows 下为 C:\Windows\System32\drivers\etc\hosts ）文件再扫一次  第二次扫描结果如下，是 WordPress，那就直接用 wpscan 扫一下吧  访问网站发现 flag1，给出了提示，需要用户登录和爆破，字典工具 cewl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DC: 2">
+<meta property="og:url" content="https://www.cooorgi.top/articles/965feb23.html">
+<meta property="og:site_name" content="cooorgi">
+<meta property="og:description" content="DC: 2 靶机地址  Nmap 扫描结果如下，不过 80 端口应该是需要根据主机名解析，所以编辑 &#x2F;etc&#x2F;hosts （Windows 下为 C:\Windows\System32\drivers\etc\hosts ）文件再扫一次  第二次扫描结果如下，是 WordPress，那就直接用 wpscan 扫一下吧  访问网站发现 flag1，给出了提示，需要用户登录和爆破，字典工具 cewl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.cooorgi.top/upload/background.jpg">
+<meta property="article:published_time" content="2025-05-10T03:49:08.000Z">
+<meta property="article:modified_time" content="2025-05-15T03:53:01.988Z">
+<meta property="article:author" content="cooorgi">
+<meta property="article:tag" content="CTF,writeup,学习笔记,博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.cooorgi.top/upload/background.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.cooorgi.top/articles/965feb23.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":3,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DC: 2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-05-15 11:53:01'
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css"><link rel="stylesheet" href="/css/abb.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/upload/background.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/upload/background.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">cooorgi</span></a><a class="nav-page-title" href="/"><span class="site-name">DC: 2</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">DC: 2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-10T03:49:08.000Z" title="发表于 2025-05-10 11:49:08">2025-05-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-15T03:53:01.988Z" title="更新于 2025-05-15 11:53:01">2025-05-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">417</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="DC-2"><a href="#DC-2" class="headerlink" title="DC: 2"></a>DC: 2</h2><blockquote>
+<p><a href="https://www.vulnhub.com/entry/dc-2,311/" rel="external nofollow noreferrer">靶机地址</a></p>
+</blockquote>
+<p>Nmap 扫描结果如下，不过 80 端口应该是需要根据主机名解析，所以编辑 <code>/etc/hosts</code> （Windows 下为 <code>C:\Windows\System32\drivers\etc\hosts</code> ）文件再扫一次</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250511200642.png"></p>
+<p>第二次扫描结果如下，是 WordPress，那就直接用 wpscan 扫一下吧</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250511201007.png"></p>
+<p>访问网站发现 flag1，给出了提示，需要用户登录和爆破，字典工具 cewl</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514161224.png"></p>
+<p>扫出来仨用户名，准备爆破</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://dc-2/  --enumerate p --enumerate t --enumerate u</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514152824.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;admin\ntom\njerry\n&quot;</span> &gt; user.txt <span class="comment"># 写入用户名</span></span><br><span class="line">cewl http://dc-2/ &gt; passwd.txt <span class="comment"># 生成字典</span></span><br><span class="line">wpscan --url http://dc-2/ -U user.txt -P passwd.txt</span><br></pre></td></tr></table></figure>
+
+<p>![](<a href="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted" rel="external nofollow noreferrer">https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted</a> image 20250514153947.png)</p>
+<blockquote>
+<p><code>jerry/adipiscing</code><br><code>tom/parturient</code></p>
+</blockquote>
+<p>Dirsearch 扫出来了一些目录，用爆破出来的用户名密码登录</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514161546.png"></p>
+<p>登录以后，拿到 <a href="http://dc-2/wp-admin/post.php?post=21&action=edit" rel="external nofollow noreferrer">flag2</a> ，提示从另一个切入点进行攻击，应该是从那个非常规的 ssh 端口进行攻击</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514180813.png"></p>
+<p>Jerry 的账号密码无法登陆，tom 的成功登录进去了，但是是一个受限的 shell，不过看到目录下有一个 vi 命令，那么就能够通过 vi 绕过受限 shell</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514184716.png"></p>
+<p>绕过受限 shell 以后，导出环境变量以后就能正常执行命令了并且拿到了 flag3，这个同样应该也是一个提示，然后发现 tom 没有 sudo 权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vi</span><br><span class="line"></span><br><span class="line">:<span class="built_in">set</span> shell=/bin/bash</span><br><span class="line">:shell</span><br><span class="line"></span><br><span class="line"><span class="comment"># 成功绕过以后，导出环境变量</span></span><br><span class="line"><span class="built_in">export</span> SHELL=/bin/bash:<span class="variable">$SHELL</span></span><br><span class="line"><span class="built_in">export</span> PATH=/usr/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514190359.png"></p>
+<p>查看 <code>/etc/passwd</code> 发现有一个 jerry 用户，且 shell 环境是 <code>/bin/bash</code>，尝试 <code>su jerry</code> ，成功通过之前爆破出来的密码登录</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514190805.png"></p>
+<p>然后通过 git 提权，拿到最后的 flag</p>
+<p><img src="https://cdn.jsdelivr.net/gh/cooorgi/img@main/img/Pasted%20image%2020250514185345.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.cooorgi.top">cooorgi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.cooorgi.top/articles/965feb23.html">https://www.cooorgi.top/articles/965feb23.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.cooorgi.top" target="_blank">cooorgi</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/upload/background.jpg" data-sites="wechat,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="next-post pull-full" href="/articles/c581b7b5.html" title="sunset: 1"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sunset: 1</div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/upload/background.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cooorgi</div><div class="author-info-description">cooorgi小栈</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" href="https://github.com/cooorgi"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cooorgi" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:cooorgi@126.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DC-2"><span class="toc-number">1.</span> <span class="toc-text">DC: 2</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/965feb23.html" title="DC: 2">DC: 2</a><time datetime="2025-05-10T03:49:08.000Z" title="发表于 2025-05-10 11:49:08">2025-05-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/c581b7b5.html" title="sunset: 1">sunset: 1</a><time datetime="2025-05-09T03:48:04.000Z" title="发表于 2025-05-09 11:48:04">2025-05-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/1ac0b2ee.html" title="Sputnik: 1">Sputnik: 1</a><time datetime="2025-05-08T10:57:50.000Z" title="发表于 2025-05-08 18:57:50">2025-05-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/5c57d1b8.html" title="Matrix: 1">Matrix: 1</a><time datetime="2025-05-07T03:34:44.000Z" title="发表于 2025-05-07 11:34:44">2025-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/382ba87d.html" title="SkyTower: 1">SkyTower: 1</a><time datetime="2025-05-06T13:52:28.000Z" title="发表于 2025-05-06 21:52:28">2025-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/e1d41399.html" title="CTF KFIOFan: 2">CTF KFIOFan: 2</a><time datetime="2025-05-05T13:52:05.000Z" title="发表于 2025-05-05 21:52:05">2025-05-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/78dd4223.html" title="CTF KFIOFan: 1">CTF KFIOFan: 1</a><time datetime="2025-05-04T08:27:06.000Z" title="发表于 2025-05-04 16:27:06">2025-05-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/2eed37f5.html" title="Ted: 1">Ted: 1</a><time datetime="2025-05-02T17:46:56.000Z" title="发表于 2025-05-03 01:46:56">2025-05-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/5b85ed80.html" title="The Planets: Earth">The Planets: Earth</a><time datetime="2025-05-02T06:59:23.000Z" title="发表于 2025-05-02 14:59:23">2025-05-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/37df81e9.html" title="Empire: Breakout">Empire: Breakout</a><time datetime="2025-05-01T07:34:16.000Z" title="发表于 2025-05-01 15:34:16">2025-05-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/3448e522.html" title="春秋杯 冬季赛">春秋杯 冬季赛</a><time datetime="2025-01-17T14:24:25.000Z" title="发表于 2025-01-17 22:24:25">2025-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/5e70877f.html" title="终端美化">终端美化</a><time datetime="2024-11-20T02:24:41.000Z" title="发表于 2024-11-20 10:24:41">2024-11-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/articles/90ee655.html" title="ctfshow misc入门">ctfshow misc入门</a><time datetime="2024-10-21T12:30:02.000Z" title="发表于 2024-10-21 20:30:02">2024-10-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/upload/background.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025  By cooorgi</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io" rel="external nofollow noreferrer">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a href="https://cooorgi.github.io/">  blog</a>!</div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'ND6GDDXWX0J3CotuYRmkJKgw-MdYXbMMI',
+      appKey: 'W4JzBOuNhQ7LHtcuOErw5QPQ',
+      avatar: 'monsterid',
+      serverURLs: 'https://nd6gddxw.api.lncldglobal.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
